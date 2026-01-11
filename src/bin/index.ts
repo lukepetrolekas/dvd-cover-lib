@@ -197,6 +197,15 @@ let latex = `\\def\\movietitle{${title}}\\def\\movieyear{${year}}\\def\\dir{${di
                 path
                 ]
               );
+
+           child.on('exit', (exitCode: any) => {
+              if (parseInt(exitCode) !== 0) {
+                console.error(`PDF generation failed with ${exitCode}`);
+                process.exit(exitCode);
+              }
+              // success of pdf generation
+              process.exit(0);
+            });
         });
 
 
