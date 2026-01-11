@@ -116,7 +116,7 @@ async function prodContent(targetText: string, page: any) {
   return texts;
 }
 
-async function fetchMovie(str: string, discLetter: string) {
+async function fetchMovie(movieUrlId: string, discLetter: string) {
   console.log(chalk.green('Loading movie data...'));
 
   // Launch the browser and open a new blank page.
@@ -128,7 +128,7 @@ async function fetchMovie(str: string, discLetter: string) {
   const customUserAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36';
   await page.setUserAgent(customUserAgent);
 
-  await page.goto(`https://collections-search.bfi.org.uk/web/Details/ChoiceFilmWorks/150530290`, { timeout: 0, waitUntil: 'domcontentloaded' });
+  await page.goto(`https://collections-search.bfi.org.uk/web/Details/ChoiceFilmWorks/${movieUrlId}`, { timeout: 0, waitUntil: 'domcontentloaded' });
   
   console.log(chalk.green("Movie page loaded..."));
   let bfiIndicator = (await siblingContent("BFI identifier", page))[0];
