@@ -53,6 +53,7 @@ const canonical: ProdCo[] = [
   { company: "Disney", score: 100 },
   { company: "Miramax", score: 5 },
   { company: "20th Century Fox", score: 15 },
+  { company: "Twentieth Century Fox", score: 15 },
   { company: "Metro-Goldwyn-Mayer", score:  10 },
   { company: "United Artists", score: 7 },
   { company: "Sony",score:  10 }
