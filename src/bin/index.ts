@@ -53,7 +53,7 @@ const canonical: ProdCo[] = [
   { company: "Disney", score: 100 },
   { company: "Miramax", score: 5 },
   { company: "20th Century Fox", score: 15 },
-  { company: "MGM",score:  10 },
+  { company: "Metro-Goldwyn-Mayer", score:  10 },
   { company: "United Artists", score: 7 },
   { company: "Sony",score:  10 }
 ];
@@ -74,7 +74,7 @@ function prodAndDist(textList: string[]) {
         if (similarity > 0.8) {
           let ts = prodCo.score;
 
-          if (ts > max) {
+          if (ts > max) {8
             max = ts;
             producer = prodCo.company;
             //console.log(chalk.red("Selected: " + producer) );
