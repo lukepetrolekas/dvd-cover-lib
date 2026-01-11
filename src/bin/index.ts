@@ -12,7 +12,6 @@ import { titleCase } from "title-case";
 const args = process.argv.slice(2);
 console.log(`The first user argument is: ${args[0]} the next is ${args[1]}`);
 fetchMovie(args[0], args[1]);
-process.exit(0)
 
 function cleanTitle(title: string) {
   return titleCase(title.replace("(Original)", "").trim().toLowerCase());
@@ -26,6 +25,13 @@ function cleanCopyright(copyright: string) {
 
 function lastFirst(fullName: string) {
   const attrs = parseName(fullName);
+
+  if (attrs.lastName === undefined)
+    attrs.lastName = ""
+  if (attrs.firstName === undefined)
+    attrs.firstName = ""
+  if (attrs.middleName === undefined)
+    attrs.middleName = ""
 
   return (attrs.lastName + ", " + attrs.firstName + " " + attrs.middleName).trim();
 }
@@ -189,6 +195,8 @@ let latex = `\\def\\movietitle{${title}}\\def\\movieyear{${year}}\\def\\dir{${di
                 ]
               );
         });
+
+
   });
  
 
