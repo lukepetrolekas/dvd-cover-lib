@@ -63,7 +63,10 @@ const canonical: ProdCo[] = [
   { company: "Metro-Goldwyn-Mayer" },
   { company: "United Artists" },
   { company: "Sony"},
-  { company: "Tristar"}
+  { company: "Tristar"},
+  { company: "New Line Cinema" },
+  { company: "Telefilm Canada" },
+  { company: "Castle Rock" }
 ];
 
 function prodAndDist(textList: string[]) {
@@ -82,7 +85,7 @@ function prodAndDist(textList: string[]) {
         if (similarity > max) {
             max = similarity;
             producer = prodCo.company;
-            //console.log(chalk.red("Selected: " + producer) );
+            //console.log(c150707823halk.red("Selected: " + producer) );
         }
       })
     }
