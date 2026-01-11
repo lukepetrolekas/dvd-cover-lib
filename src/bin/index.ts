@@ -7,13 +7,14 @@ import process from 'process';
 const { spawn } = require('child_process');
 import tmp from 'tmp';
 const fs = require('fs');
+import { titleCase } from "title-case";
 
 const args = process.argv.slice(2);
 console.log(`The first user argument is: ${args[0]} the next is ${args[1]}`);
 fetchMovie(args[0], args[1]);
 
 function cleanTitle(title: string) {
-  return title.replace("(Original)", "").trim();
+  return titleCase(title.replace("(Original)", "").trim().toLowerCase());
 }
 
 function cleanCopyright(copyright: string) {
@@ -104,25 +105,31 @@ async function directorContent(targetText: string, page: any) {
   let locator = page.locator( `xpath=//span[contains(text(), "Director")]/following-sibling::*[1]`).setTimeout(3000); 
   let handle = await locator.waitHandle().catch(() => null);
 
-  //try something else here...
   if (handle == null) {
-    console.log(chalk.magentaBright("Trying 'Directed by' instead of 'Director'"));
+     console.log(chalk.magentaBright("Trying 'Directed by' instead of 'Director'"));
     // seriously BFI?
-    locator = await page.locator( `xpath=//span[contains(text(), "Directed by")]/following-sibling::*[1]` ).setTimeout(3000); 
+    locator = await page.locator( `xpath=//span[contains(text(), "Directed by")]/following-sibling::*[1]` ).setTimeout(3000);
     handle = await locator.waitHandle().catch(() => null);
-    // gripe because I can. shakes fist ;)
-    if (handle != null) {
-      console.log(chalk.green("Yay I found a director. Now can BFI keep its data consistent ;)....?"))
-    }
-
-    if (handle == null) {
-      console.log(chalk.red("Failed director... sorry."));
-    }
   }
 
-  const content = await handle.evaluate((el: any) => el.textContent);
-  console.log(chalk.yellow(content));
-  return [content.trim()];
+  if (handle == null) {
+    console.log(chalk.magentaBright("Okay, French then?"));
+    // seriously BFI?
+    locator = await page.locator( `xpath=//span[contains(text(), "Un film de")]/following-sibling::*[1]` ).setTimeout(3000);
+    handle = await locator.waitHandle().catch(() => null);
+  }
+  
+    // gripe because I can. shakes fist ;)
+    if (handle != null) {
+      console.log(chalk.green("Yay I found a director."));
+      const content = await handle.evaluate((el: any) => el.textContent);
+      console.log(chalk.yellow(content));
+      return [content.trim()];
+    }
+    else {
+      console.log(chalk.red("Failed director... sorry."));
+      return [""];
+    }
 }
 
 async function prodContent(targetText: string, page: any) {
