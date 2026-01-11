@@ -1,0 +1,31 @@
+{
+  "name": "dvd-cover-lib",
+  "version": "0.0.1",
+  "description": "A DVD cover organizer generator CLI tool",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node ./src/bin/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "test-cli": "./src/bin/index.ts"
+  },
+  "author": "",
+  "license": "AGPL-3.0-or-later",
+  "homepage": "https://github.com/dylanyoung-dev/first-node-cli#readme",
+  "dependencies": {
+    "@types/node": "^18.6.1",
+    "chalk": "4.1.2",
+    "humanparser": "^2.7.0",
+    "puppeteer": "^24.1.0",
+    "string-similarity-js": "^2.1.4",
+    "tmp": "^0.2.5",
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "@types/humanparser": "^1.1.8",
+    "@types/tmp": "^0.2.6",
+    "@types/yargs": "^17.0.35"
+  }
+}

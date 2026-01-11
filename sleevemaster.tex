@@ -1,0 +1,59 @@
+
+\documentclass[letterpaper,10pt]{article}
+\pagestyle{empty}
+
+\usepackage{simplecd}
+\usepackage[sfdefault]{cabin}
+\usepackage{pdflscape}
+\usepackage[left=3mm,right=3mm,top=5mm,bottom=5mm,paper=letterpaper]{geometry}
+\usepackage{graphicx}
+\usepackage[code=Code39,X=.3mm,ratio=2.25,H=1cm]{makebarcode}
+\usepackage{selectp}
+
+\providecommand{\movietitle}{Movie Title}
+\providecommand{\dir}{Director, A}
+\providecommand{\dist}{Example Prod Co.}
+\providecommand{\movieyear}{1901}
+\providecommand{\discode}{CODE39}
+
+\makeatletter
+
+\newenvironment*{centernopagebreaks}{%
+	\@beginparpenalty \@M
+	\@endparpenalty   \@M
+	\@itempenalty     \@M
+	\center
+}{\endcenter}
+
+\makeatother
+	
+\newenvironment{changemargin}[2]{%
+	\begin{list}{}{%
+			\setlength{\leftmargin}{#1}%
+			\setlength{\rightmargin}{#2}
+			\setlength{\listparindent}{\parindent}%
+			\setlength{\itemindent}{\parindent}%
+			\setlength{\parsep}{\parskip}%
+		}%
+		\item[]}{\end{list}}
+
+\outputonly{2}	
+\begin{document}
+
+\begin{landscape}
+\raggedleft
+\large \movietitle\ --- \dir\ --- \dist\ --- \movieyear\ \quad \huge \textbf{\discode} \barcode{\discode}
+\begin{centernopagebreaks}
+	\begin{minipage}[b]{\textwidth}
+		\begin{changemargin}{-3cm}{0cm}
+			\rotatebox[origin=c]{90}{
+				\dvd[]{}{}
+			}
+		\end{changemargin}
+
+		\label{fig;img}
+	\end{minipage}
+\end{centernopagebreaks}
+\end{landscape}
+
+\end{document}
