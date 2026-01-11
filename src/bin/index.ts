@@ -52,7 +52,6 @@ const canonical: ProdCo[] = [
   { company: "Netflix", score: 20 },
   { company: "Disney", score: 100 },
   { company: "Miramax", score: 5 },
-  { company: "20th Century Fox", score: 15 },
   { company: "Twentieth Century Fox", score: 15 },
   { company: "Metro-Goldwyn-Mayer", score:  10 },
   { company: "United Artists", score: 7 },
@@ -87,7 +86,6 @@ function prodAndDist(textList: string[]) {
     }
   });
 
-  console.log(chalk.green(producer));
   return producer;
 }
 
@@ -102,8 +100,26 @@ async function siblingContent(targetText: string, page: any) {
 
 async function directorContent(targetText: string, page: any) {
   console.log(chalk.blue(targetText));
-  const locator = page.locator( `xpath=//span[contains(text(), "Director")]/following-sibling::*[1]` ); 
-  const handle = await locator.waitHandle(); 
+  
+  let locator = page.locator( `xpath=//span[contains(text(), "Director")]/following-sibling::*[1]`).setTimeout(3000); 
+  let handle = await locator.waitHandle().catch(() => null);
+
+  //try something else here...
+  if (handle == null) {
+    console.log(chalk.magentaBright("Trying 'Directed by' instead of 'Director'"));
+    // seriously BFI?
+    locator = await page.locator( `xpath=//span[contains(text(), "Directed by")]/following-sibling::*[1]` ).setTimeout(3000); 
+    handle = await locator.waitHandle().catch(() => null);
+    // gripe because I can. shakes fist ;)
+    if (handle != null) {
+      console.log(chalk.green("Yay I found a director. Now can BFI keep its data consistent ;)....?"))
+    }
+
+    if (handle == null) {
+      console.log(chalk.red("Failed director... sorry."));
+    }
+  }
+
   const content = await handle.evaluate((el: any) => el.textContent);
   console.log(chalk.yellow(content));
   return [content.trim()];
@@ -158,7 +174,6 @@ let code = bfi  + "-" + location
 let jobname = code
 
 let latex = `\\def\\movietitle{${title}}\\def\\movieyear{${year}}\\def\\dir{${director}}\\def\\dist{${dist}}\\def\\discode{${code}}\\input{sleevemaster.tex}`;
-console.log(latex);
 
   tmp.file(function _tempFileCreated(err, path, fd, cleanupCallback) {
 
