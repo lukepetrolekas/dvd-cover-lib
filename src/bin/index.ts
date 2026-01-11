@@ -12,6 +12,7 @@ import { titleCase } from "title-case";
 const args = process.argv.slice(2);
 console.log(`The first user argument is: ${args[0]} the next is ${args[1]}`);
 fetchMovie(args[0], args[1]);
+process.exit(0)
 
 function cleanTitle(title: string) {
   return titleCase(title.replace("(Original)", "").trim().toLowerCase());
@@ -26,7 +27,7 @@ function cleanCopyright(copyright: string) {
 function lastFirst(fullName: string) {
   const attrs = parseName(fullName);
 
-  return attrs.lastName + ", " + attrs.firstName;
+  return (attrs.lastName + ", " + attrs.firstName + " " + attrs.middleName).trim();
 }
 
 //strip typical keywords in film studios and numbered companies
@@ -41,22 +42,22 @@ const normalize = (s: string) =>
 
 interface ProdCo {
   company: string;
-  score: number;
 }
 
 // the numbers represent an arbitrary scoring mechanism to select 'lead' producer/distributor
 const canonical: ProdCo[] = [
-  { company: "Columbia", score: 7 },
-  { company: "Paramount", score: 10 },
-  { company: "Warner",score:  10 },
-  { company: "Universal", score: 10 },
-  { company: "Netflix", score: 20 },
-  { company: "Disney", score: 100 },
-  { company: "Miramax", score: 5 },
-  { company: "Twentieth Century Fox", score: 15 },
-  { company: "Metro-Goldwyn-Mayer", score:  10 },
-  { company: "United Artists", score: 7 },
-  { company: "Sony",score:  10 }
+  { company: "Columbia" },
+  { company: "Paramount" },
+  { company: "Warner" },
+  { company: "Universal" },
+  { company: "Netflix" },
+  { company: "Disney" },
+  { company: "Miramax" },
+  { company: "Twentieth Century Fox" },
+  { company: "Metro-Goldwyn-Mayer" },
+  { company: "United Artists" },
+  { company: "Sony"},
+  { company: "Tristar"}
 ];
 
 function prodAndDist(textList: string[]) {
@@ -65,7 +66,6 @@ function prodAndDist(textList: string[]) {
 
   let producer: string = "";
   let max: number = -1;
-  let maxSimilarity: number = -1;
 
   textList.forEach((t: string) => {
     if (t.length > 0) {
@@ -73,15 +73,10 @@ function prodAndDist(textList: string[]) {
         let similarity: number = stringSimilarity(t, prodCo.company);
       // console.log(chalk.yellow(similarity.toString()));
         
-        if (similarity > maxSimilarity) {
-          let ts = prodCo.score;
-          maxSimilarity = similarity;
-
-          if (ts > max) {
-            max = ts;
+        if (similarity > max) {
+          let max = similarity;
             producer = prodCo.company;
             //console.log(chalk.red("Selected: " + producer) );
-          }
         }
       })
     }
@@ -128,6 +123,7 @@ async function directorContent(targetText: string, page: any) {
     }
     else {
       console.log(chalk.red("Failed director... sorry."));
+      process.exit(1);
       return [""];
     }
 }
