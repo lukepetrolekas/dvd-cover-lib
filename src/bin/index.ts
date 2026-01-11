@@ -77,10 +77,10 @@ function prodAndDist(textList: string[]) {
     if (t.length > 0) {
       canonical.forEach((prodCo: ProdCo) => {
         let similarity: number = stringSimilarity(t, prodCo.company);
-      // console.log(chalk.yellow(similarity.toString()));
+        //console.log(chalk.green(t) +  " " + chalk.red(prodCo.company) +  " " + chalk.yellow(similarity.toString()));
         
         if (similarity > max) {
-          let max = similarity;
+            max = similarity;
             producer = prodCo.company;
             //console.log(chalk.red("Selected: " + producer) );
         }
