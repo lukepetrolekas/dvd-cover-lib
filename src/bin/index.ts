@@ -64,6 +64,7 @@ function prodAndDist(textList: string[]) {
 
   let producer: string = "";
   let max: number = -1;
+  let maxSimilarity: number = -1;
 
   textList.forEach((t: string) => {
     if (t.length > 0) {
@@ -71,10 +72,11 @@ function prodAndDist(textList: string[]) {
         let similarity: number = stringSimilarity(t, prodCo.company);
       // console.log(chalk.yellow(similarity.toString()));
         
-        if (similarity > 0.8) {
+        if (similarity > maxSimilarity) {
           let ts = prodCo.score;
+          maxSimilarity = similarity;
 
-          if (ts > max) {8
+          if (ts > max) {
             max = ts;
             producer = prodCo.company;
             //console.log(chalk.red("Selected: " + producer) );
