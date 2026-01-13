@@ -53,6 +53,7 @@ interface ProdCo {
 // the numbers represent an arbitrary scoring mechanism to select 'lead' producer/distributor
 const canonical: ProdCo[] = [
   { company: "Columbia" },
+  { company: "Dreamworks" },
   { company: "Paramount" },
   { company: "Warner" },
   { company: "Universal" },
